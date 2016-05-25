@@ -48,8 +48,8 @@ class TenderCDBidDocumentResource(TenderUaBidDocumentResource):
             collection_data = [i.serialize("restricted_view") if self._doc_access_restricted(i) else i.serialize("view")
                                for i in getattr(self.context, self.container)]
         else:
-            collection_data = sorted(dict([(i.id, i.serialize("restricted_view") if self._doc_access_restricted(i) else i.serialize("view"))
-                                           for i in getattr(self.context, self.container)]).values(), key=lambda i: i['dateModified'])
+            collection_data = sorted(dict(((i.id, i.serialize("restricted_view") if self._doc_access_restricted(i) else i.serialize("view"))
+                                          for i in getattr(self.context, self.container))).values(), key=lambda i: i['dateModified'])
         return {'data': collection_data}
 
     @json_view(validators=(validate_file_upload,), permission='edit_bid')
