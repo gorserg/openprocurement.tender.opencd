@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/gorserg/openprocurement.tender.opencd.svg?branch=master)](https://travis-ci.org/gorserg/openprocurement.tender.opencd)
 [![Code Health](https://landscape.io/github/gorserg/openprocurement.tender.opencd/master/landscape.svg?style=flat)](https://landscape.io/github/gorserg/openprocurement.tender.opencd/master)
 [![Coverage Status](https://coveralls.io/repos/github/gorserg/openprocurement.tender.opencd/badge.svg?branch=master)](https://coveralls.io/github/gorserg/openprocurement.tender.opencd?branch=master)
+
 OpenProcurement is initiative to develop software powering tenders database and reverse auction.
 
 The Open Procurement Competitive dialogue procedure is plugin to Open Procurement API software.
