@@ -1,4 +1,4 @@
-"!https://www.quantifiedcode.com/api/v1/project/fc030f346aba42d18b96ec7d6bcf3be6/badge.svg!":https://www.quantifiedcode.com/app/project/fc030f346aba42d18b96ec7d6bcf3be6
+[![Code Issues](https://www.quantifiedcode.com/api/v1/project/fc030f346aba42d18b96ec7d6bcf3be6/badge.svg)](https://www.quantifiedcode.com/app/project/fc030f346aba42d18b96ec7d6bcf3be6)
 
 OpenProcurement is initiative to develop software powering tenders database and reverse auction.
 
