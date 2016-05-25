@@ -35,7 +35,7 @@ class TenderCDQualificationComplaintResource(TenderCDAwardComplaintResource):
             self.request.errors.add('body', 'data', 'Can\'t add complaint in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
-        if any([i.status != 'active' for i in tender.lots if i.id == self.context.lotID]):
+        if any(i.status != 'active' for i in tender.lots if i.id == self.context.lotID):
             self.request.errors.add('body', 'data', 'Can add complaint only in active lot status')
             self.request.errors.status = 403
             return
@@ -76,7 +76,7 @@ class TenderCDQualificationComplaintResource(TenderCDAwardComplaintResource):
             self.request.errors.add('body', 'data', 'Can\'t update complaint in current ({}) tender status'.format(tender.status))
             self.request.errors.status = 403
             return
-        if any([i.status != 'active' for i in tender.lots if i.id == self.request.validated['qualification'].lotID]):
+        if any(i.status != 'active' for i in tender.lots if i.id == self.request.validated['qualification'].lotID):
             self.request.errors.add('body', 'data', 'Can update complaint only in active lot status')
             self.request.errors.status = 403
             return

@@ -20,7 +20,7 @@ class TenderCDQualificationComplaintDocumentResource(TenderCDAwardComplaintDocum
             self.request.errors.add('body', 'data', 'Can\'t {} document in current ({}) tender status'.format(operation, self.request.validated['tender_status']))
             self.request.errors.status = 403
             return
-        if any([i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['qualification'].lotID]):
+        if any(i.status != 'active' for i in self.request.validated['tender'].lots if i.id == self.request.validated['qualification'].lotID):
             self.request.errors.add('body', 'data', 'Can {} document only in active lot status'.format(operation))
             self.request.errors.status = 403
             return

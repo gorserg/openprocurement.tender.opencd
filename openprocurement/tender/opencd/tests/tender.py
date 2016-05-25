@@ -125,8 +125,8 @@ class TenderResourceTest(BaseTenderWebTest):
 
         self.assertEqual(len(response.json['data']), 3)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
-        self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
-        self.assertEqual(set([i['dateModified'] for i in response.json['data']]), set([i['dateModified'] for i in tenders]))
+        self.assertEqual(set(i['id'] for i in response.json['data']), set(i['id'] for i in tenders))
+        self.assertEqual(set(i['dateModified'] for i in response.json['data']), set(i['dateModified'] for i in tenders))
         self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders]))
 
         while True:
@@ -227,8 +227,8 @@ class TenderResourceTest(BaseTenderWebTest):
 
         self.assertEqual(len(response.json['data']), 3)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
-        self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
-        self.assertEqual(set([i['dateModified'] for i in response.json['data']]), set([i['dateModified'] for i in tenders]))
+        self.assertEqual(set(i['id'] for i in response.json['data']), set(i['id'] for i in tenders))
+        self.assertEqual(set(i['dateModified'] for i in response.json['data']), set(i['dateModified'] for i in tenders))
         self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders]))
 
         response = self.app.get('/tenders?feed=changes&limit=2')
@@ -263,7 +263,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(len(response.json['data']), 3)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
-        self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
+        self.assertEqual(set(i['id'] for i in response.json['data']), set(i['id'] for i in tenders))
         self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders], reverse=True))
 
         response = self.app.get('/tenders?feed=changes&descending=1&limit=2')
@@ -326,8 +326,8 @@ class TenderResourceTest(BaseTenderWebTest):
 
         self.assertEqual(len(response.json['data']), 3)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
-        self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
-        self.assertEqual(set([i['dateModified'] for i in response.json['data']]), set([i['dateModified'] for i in tenders]))
+        self.assertEqual(set(i['id'] for i in response.json['data']), set(i['id'] for i in tenders))
+        self.assertEqual(set(i['dateModified'] for i in response.json['data']), set(i['dateModified'] for i in tenders))
         self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders]))
 
     def test_create_tender_invalid(self):
@@ -880,7 +880,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertNotEqual(dateModified, new_dateModified)
 
         revisions = self.db.get(tender['id']).get('revisions')
-        self.assertTrue(any([i for i in revisions[-1][u'changes'] if i['op'] == u'remove' and i['path'] == u'/procurementMethodRationale']))
+        self.assertTrue(any(i for i in revisions[-1][u'changes'] if i['op'] == u'remove' and i['path'] == u'/procurementMethodRationale'))
 
         response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
             tender['id'], owner_token), {'data': {'dateModified': new_dateModified}})

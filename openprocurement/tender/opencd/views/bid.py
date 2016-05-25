@@ -155,7 +155,7 @@ class TenderBidResource(BaseResource):
         if value and value != self.request.context.get("value", {}).get("amount"):
             self.request.validated['data']['date'] = get_now().isoformat()
         if self.request.context.lotValues:
-            lotValues = dict([(i.relatedLot, i.value.amount) for i in self.request.context.lotValues])
+            lotValues = dict(set((i.relatedLot, i.value.amount) for i in self.request.context.lotValues))
             for lotvalue in self.request.validated['data'].get("lotValues", []):
                 if lotvalue['relatedLot'] in lotValues and lotvalue.get("value", {}).get("amount") != lotValues[lotvalue['relatedLot']]:
                     lotvalue['date'] = get_now().isoformat()

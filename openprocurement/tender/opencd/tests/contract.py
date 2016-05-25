@@ -159,14 +159,14 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
         response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
         contract = response.json['data'][0]
 
-        fake_contractID = "myselfID"
+        fake_contract_id = "myselfID"
         fake_items_data = [{"description": "New Description"}]
         fake_suppliers_data = [{"name": "New Name"}]
 
-        response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"contractID": fake_contractID, "items": fake_items_data, "suppliers": fake_suppliers_data}})
+        response = self.app.patch_json('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']), {"data": {"contractID": fake_contract_id, "items": fake_items_data, "suppliers": fake_suppliers_data}})
 
         response = self.app.get('/tenders/{}/contracts/{}'.format(self.tender_id, contract['id']))
-        self.assertNotEqual(fake_contractID, response.json['data']['contractID'])
+        self.assertNotEqual(fake_contract_id, response.json['data']['contractID'])
         self.assertNotEqual(fake_items_data, response.json['data']['items'])
         self.assertNotEqual(fake_suppliers_data, response.json['data']['suppliers'])
 

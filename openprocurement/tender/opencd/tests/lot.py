@@ -1466,8 +1466,8 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
         bid_id = bids[2].keys()[0]
         bid_token = bids[2].values()[0]
         response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid_id, bid_token))
-        self.assertNotEqual(response.json['data']['lotValues'][0].get('participationUrl', None), 'https://tender.auction.url/for_bid/{}'.format(bid_id))
-        self.assertEqual(response.json['data']['lotValues'][0].get('participationUrl', None), None)
+        self.assertNotEqual(response.json['data']['lotValues'][0].get('participationUrl'), 'https://tender.auction.url/for_bid/{}'.format(bid_id))
+        self.assertEqual(response.json['data']['lotValues'][0].get('participationUrl'), None)
 
         # posting auction results
         self.app.authorization = ('Basic', ('auction', ''))
@@ -1524,7 +1524,7 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
         # switch to unsuccessful
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}?acc_token={}'.format(tender_id, owner_token))
-        self.assertTrue(all([i['status'] == 'unsuccessful' for i in response.json['data']['lots']]))
+        self.assertTrue(all(i['status'] == 'unsuccessful' for i in response.json['data']['lots']))
         self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
     def test_2lot_2can(self):
@@ -1553,7 +1553,7 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
                 "relatedLot": lot_id
             }})
         response = self.app.get('/tenders/{}'.format(tender_id))
-        self.assertTrue(all([i['status'] == 'cancelled' for i in response.json['data']['lots']]))
+        self.assertTrue(all(i['status'] == 'cancelled' for i in response.json['data']['lots']))
         self.assertEqual(response.json['data']['status'], 'cancelled')
 
     def test_2lot_1can(self):
@@ -1582,8 +1582,8 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
         }})
 
         response = self.app.get('/tenders/{}'.format(tender_id))
-        self.assertFalse(all([i['status'] == 'cancelled' for i in response.json['data']['lots']]))
-        self.assertTrue(any([i['status'] == 'cancelled' for i in response.json['data']['lots']]))
+        self.assertFalse(all(i['status'] == 'cancelled' for i in response.json['data']['lots']))
+        self.assertTrue(any(i['status'] == 'cancelled' for i in response.json['data']['lots']))
         self.assertEqual(response.json['data']['status'], 'active.tendering')
 
         # try to restore lot back by old cancellation
@@ -1607,8 +1607,8 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.json['errors'][0]["description"], "Can add cancellation only in active lot status")
         response = self.app.get('/tenders/{}'.format(tender_id))
-        self.assertFalse(all([i['status'] == 'cancelled' for i in response.json['data']['lots']]))
-        self.assertTrue(any([i['status'] == 'cancelled' for i in response.json['data']['lots']]))
+        self.assertFalse(all(i['status'] == 'cancelled' for i in response.json['data']['lots']))
+        self.assertTrue(any(i['status'] == 'cancelled' for i in response.json['data']['lots']))
         self.assertEqual(response.json['data']['status'], 'active.tendering')
 
     def test_2lot_2bid_0com_1can(self):
@@ -1808,7 +1808,7 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
         # check status
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}'.format(tender_id))
-        self.assertTrue(all([i['status'] == 'complete' for i in response.json['data']['lots']]))
+        self.assertTrue(all(i['status'] == 'complete' for i in response.json['data']['lots']))
         self.assertEqual(response.json['data']['status'], 'complete')
 
 

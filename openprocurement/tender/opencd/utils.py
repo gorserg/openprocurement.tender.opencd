@@ -38,7 +38,7 @@ def check_initial_bids_count(request):
 
         # [setattr(i, 'status', 'unsuccessful') for i in tender.lots if i.numberOfBids < 2 and i.status == 'active']
 
-        if not set([i.status for i in tender.lots]).difference(set(['unsuccessful', 'cancelled'])):
+        if not set(i.status for i in tender.lots).difference(set(['unsuccessful', 'cancelled'])):
             LOGGER.info('Switched tender {} to {}'.format(tender.id, 'unsuccessful'),
                         extra=context_unpack(request, {'MESSAGE_ID': 'switched_tender_unsuccessful'}))
             tender.status = 'unsuccessful'
@@ -50,9 +50,11 @@ def check_initial_bids_count(request):
         tender.status = 'unsuccessful'
 
 
-def prepare_qualifications(request, bids=[], lotId=None):
+def prepare_qualifications(request, bids=None, lotId=None):
     """ creates Qualification for each Bid
     """
+    if bids is None:
+        bids = []
     new_qualifications = []
     tender = request.validated['tender']
     if not bids:
@@ -86,14 +88,14 @@ def all_bids_are_reviewed(request):
     """
     if request.validated['tender'].lots:
         active_lots = [lot.id for lot in request.validated['tender'].lots if lot.status == 'active']
-        return all([
+        return all(
             lotValue.status != 'pending'
             for bid in request.validated['tender'].bids
             for lotValue in bid.lotValues
             if lotValue.relatedLot in active_lots
-        ])
+        )
     else:
-        return all([bid.status != 'pending' for bid in request.validated['tender'].bids])
+        return all(bid.status != 'pending' for bid in request.validated['tender'].bids)
 
 
 def check_status(request):

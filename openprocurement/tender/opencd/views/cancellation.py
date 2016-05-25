@@ -46,16 +46,16 @@ class TenderCancellationResource(BaseResource):
         for qualification in tender.qualifications:
             if qualification.lotID in cancelled_lots:
                 qualification.status = 'cancelled'
-        statuses = set([lot.status for lot in tender.lots])
+        statuses = set(lot.status for lot in tender.lots)
         if statuses == set(['cancelled']):
             self.cancel_tender()
         elif not statuses.difference(set(['unsuccessful', 'cancelled'])):
             tender.status = 'unsuccessful'
         elif not statuses.difference(set(['complete', 'unsuccessful', 'cancelled'])):
             tender.status = 'complete'
-        if tender.status == 'active.auction' and all([
+        if tender.status == 'active.auction' and all(
             i.auctionPeriod and i.auctionPeriod.endDate
             for i in self.request.validated['tender'].lots
             if i.status == 'active'
-        ]):
+        ):
             add_next_award(self.request)

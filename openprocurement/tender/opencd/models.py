@@ -507,14 +507,14 @@ class Tender(BaseTender):
         now = get_now()
         checks = []
         if self.status == 'active.tendering' and self.tenderPeriod.endDate and \
-                not any([i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints]) and \
-                not any([i.id for i in self.questions if not i.answer]):
+                not any(i.status in BLOCK_COMPLAINT_STATUS for i in self.complaints) and \
+                not any(i.id for i in self.questions if not i.answer):
             checks.append(self.tenderPeriod.endDate.astimezone(TZ))
-        elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate and not any([
+        elif self.status == 'active.pre-qualification.stand-still' and self.qualificationPeriod and self.qualificationPeriod.endDate and not any(
             i.status in BLOCK_COMPLAINT_STATUS
             for q in self.qualifications
             for i in q.complaints
-        ]):
+        ):
             checks.append(self.qualificationPeriod.endDate.astimezone(TZ))
         elif not self.lots and self.status == 'active.auction' and self.auctionPeriod and self.auctionPeriod.startDate and not self.auctionPeriod.endDate:
             if now < self.auctionPeriod.startDate:
