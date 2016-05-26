@@ -59,7 +59,7 @@ class TenderQualificationResource(APIResource):
         prev_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
         if prev_status != 'pending' and self.request.context.status != 'cancelled':
-            self.request.errors.add('body', 'data', 'Can\'t update qualification status'.format(tender.status))
+            self.request.errors.add('body', 'data', 'Can\'t update qualification status')
             self.request.errors.status = 403
             return
         if self.request.context.status == 'active':

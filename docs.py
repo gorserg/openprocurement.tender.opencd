@@ -550,12 +550,10 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.post('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]), upload_files=[('file', 'financial_doc.pdf', '1000$')])
             self.assertEqual(response.status, '201 Created')
-            financial_doc_id = response.json['data']['id']
 
         response = self.app.post('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]), upload_files=[('file', 'financial_doc2.pdf', '1000$')])
         self.assertEqual(response.status, '201 Created')
-        financial_doc_id = response.json['data']['id']
 
         with open('docs/source/tutorial/bidder-financial-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
@@ -567,7 +565,6 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.post('/tenders/{}/bids/{}/eligibility_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]), upload_files=[('file', 'eligibility_doc.pdf', 'content')])
             self.assertEqual(response.status, '201 Created')
-            eligibility_doc_id = response.json['data']['id']
 
         with open('docs/source/tutorial/upload-bid-qualification-document-proposal.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/bids/{}/qualification_documents?acc_token={}'.format(
@@ -876,7 +873,6 @@ class TenderResourceTest(BaseTenderWebTest):
             self.assertEqual(response.status, '201 Created')
 
         complaint3_id = response.json['data']['id']
-        complaint3_token = response.json['access']['token']
 
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), claim)
         self.assertEqual(response.status, '201 Created')
@@ -919,7 +915,6 @@ class TenderResourceTest(BaseTenderWebTest):
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), complaint_data)
         self.assertEqual(response.status, '201 Created')
         complaint5_id = response.json['data']['id']
-        complaint5_token = response.json['access']['token']
 
         response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), complaint_data)
         self.assertEqual(response.status, '201 Created')
@@ -1033,7 +1028,6 @@ class TenderResourceTest(BaseTenderWebTest):
         self.tender_id = tender['id']
 
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid)
-        bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1085,12 +1079,10 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token), complaint_data)
             self.assertEqual(response.status, '201 Created')
 
-        complaint2_token = response.json['access']['token']
         complaint2_id = response.json['data']['id']
 
         response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token), complaint_data)
         self.assertEqual(response.status, '201 Created')
-        complaint3_token = response.json['access']['token']
         complaint3_id = response.json['data']['id']
 
         response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token), complaint_data)
@@ -1100,7 +1092,6 @@ class TenderResourceTest(BaseTenderWebTest):
 
         response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token), complaint_data)
         self.assertEqual(response.status, '201 Created')
-        complaint5_token = response.json['access']['token']
         complaint5_id = response.json['data']['id']
 
         response = self.app.post_json('/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token), complaint)
@@ -1206,7 +1197,6 @@ class TenderResourceTest(BaseTenderWebTest):
         self.tender_id = tender['id']
 
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), bid)
-        bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1270,12 +1260,10 @@ class TenderResourceTest(BaseTenderWebTest):
             response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
             self.assertEqual(response.status, '201 Created')
 
-        complaint2_token = response.json['access']['token']
         complaint2_id = response.json['data']['id']
 
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
         self.assertEqual(response.status, '201 Created')
-        complaint3_token = response.json['access']['token']
         complaint3_id = response.json['data']['id']
 
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
@@ -1285,7 +1273,6 @@ class TenderResourceTest(BaseTenderWebTest):
 
         response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), complaint_data)
         self.assertEqual(response.status, '201 Created')
-        complaint5_token = response.json['access']['token']
         complaint5_id = response.json['data']['id']
 
         self.app.authorization = ('Basic', ('reviewer', ''))

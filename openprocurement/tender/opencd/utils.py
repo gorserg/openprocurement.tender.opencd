@@ -26,7 +26,9 @@ bid_qualification_documents_resource = partial(resource, error_handler=error_han
 def check_initial_bids_count(request):
     tender = request.validated['tender']
     if tender.lots:
-        [setattr(i.auctionPeriod, 'startDate', None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate]
+        for lot in tender.lots:
+            if lot.numberOfBids < 2 and lot.auctionPeriod and lot.auctionPeriod.startDate:
+                setattr(lot.auctionPeriod, 'startDate', None)
 
         for i in tender.lots:
             if i.numberOfBids < 2 and i.status == 'active':

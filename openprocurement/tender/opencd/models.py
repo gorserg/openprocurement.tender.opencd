@@ -14,7 +14,7 @@ from openprocurement.api.models import (
     Contract as BaseContract, Cancellation as BaseCancellation, Lot as BaseLot,
     Document as BaseDocument, ContactPoint as BaseContactPoint,
     LotValue as BaseLotValue, ComplaintModelType as BaseComplaintModelType,
-    plain_role, create_role, edit_role, view_role, listing_role, draft_role,
+    plain_role, create_role, edit_role, view_role, listing_role,
     auction_view_role, auction_post_role, auction_patch_role, enquiries_role,
     auction_role, chronograph_role, chronograph_view_role, view_bid_role,
     Administrator_bid_role, Administrator_role, schematics_default_role,
@@ -82,7 +82,7 @@ class ContactPoint(BaseContactPoint):
 
 class Organization(Model):
     """An organization."""
-    class Options:
+    class Options(object):
         roles = {
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
@@ -101,7 +101,7 @@ class Organization(Model):
 
 class ProcuringEntity(Organization):
     """An organization."""
-    class Options:
+    class Options(object):
         roles = {
             'embedded': schematics_embedded_role,
             'view': schematics_default_role,
@@ -118,7 +118,7 @@ class Document(BaseDocument):
 
 class ConfidentialDocument(Document):
     """ Confidential Document """
-    class Options:
+    class Options(object):
         roles = {
             'edit': blacklist('id', 'url', 'datePublished', 'dateModified', ''),
             'embedded': schematics_embedded_role,
@@ -144,7 +144,7 @@ class Contract(BaseContract):
 
 
 class Complaint(BaseComplaint):
-    class Options:
+    class Options(object):
         roles = {
             'active.pre-qualification': view_bid_role,
             'active.pre-qualification.stand-still': view_bid_role,
@@ -158,7 +158,7 @@ class Complaint(BaseComplaint):
 
 
 class Cancellation(BaseCancellation):
-    class Options:
+    class Options(object):
         roles = {
             'create': whitelist('reason', 'status', 'reasonType', 'cancellationOf', 'relatedLot'),
             'edit': whitelist('status', 'reasonType'),
@@ -209,7 +209,7 @@ class LotAuctionPeriod(Period):
 
 class Lot(BaseLot):
 
-    class Options:
+    class Options(object):
         roles = {
             'create': whitelist('id', 'title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
             'edit': whitelist('title', 'title_en', 'title_ru', 'description', 'description_en', 'description_ru', 'value', 'guarantee', 'minimalStep'),
@@ -236,7 +236,7 @@ class Lot(BaseLot):
 
 
 class LotValue(BaseLotValue):
-    class Options:
+    class Options(object):
         roles = {
             'create': whitelist('value', 'relatedLot', 'subcontractingDetails'),
             'edit': whitelist('value', 'relatedLot', 'subcontractingDetails'),
@@ -266,7 +266,7 @@ class LotValue(BaseLotValue):
 
 
 class Bid(BaseBid):
-    class Options:
+    class Options(object):
         roles = {
             'Administrator': Administrator_bid_role,
             'embedded': view_bid_role,
@@ -359,7 +359,7 @@ class Award(BaseAward):
 class Qualification(Model):
     """ Pre-Qualification """
 
-    class Options:
+    class Options(object):
         roles = {
             'create': blacklist('id', 'status', 'documents', 'date'),
             'edit': whitelist('status', 'qualified', 'eligible', 'title', 'title_en', 'title_ru',
@@ -403,7 +403,7 @@ class Qualification(Model):
 @implementer(ITender)
 class Tender(BaseTender):
     """ OpenCD tender model """
-    class Options:
+    class Options(object):
         roles = {
             'plain': plain_role,
             'create': create_role_cd,
