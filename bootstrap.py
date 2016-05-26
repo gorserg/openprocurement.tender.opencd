@@ -73,7 +73,7 @@ parser.add_option("--setuptools-to-dir",
 
 options, args = parser.parse_args()
 if options.version:
-    print("bootstrap.py version %s" % __version__)
+    print("bootstrap.py version {version}".format(version=__version__))
     sys.exit(0)
 
 
@@ -136,7 +136,7 @@ setuptools_path = ws.find(
 
 # Fix sys.path here as easy_install.pth added before PYTHONPATH
 cmd = [sys.executable, '-c',
-       'import sys; sys.path[0:0] = [%r]; ' % setuptools_path +
+       'import sys; sys.path[0:0] = [{0!r}]; '.format(setuptools_path) +
        'from setuptools.command.easy_install import main; main()',
        '-mZqNxd', tmpeggs]
 
@@ -192,7 +192,7 @@ cmd.append(requirement)
 import subprocess
 if subprocess.call(cmd) != 0:
     raise Exception(
-        "Failed to execute command:\n%s" % repr(cmd)[1:-1])
+        "Failed to execute command:\n{0}".format(repr(cmd)[1:-1]))
 
 ######################################################################
 # Import and run buildout

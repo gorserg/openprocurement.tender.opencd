@@ -23,7 +23,8 @@ from openprocurement.api.validation import (
     description="Tender CD qualification complaints")
 class TenderCDQualificationComplaintResource(TenderCDAwardComplaintResource):
 
-    def complaints_len(self, tender):
+    @staticmethod
+    def complaints_len(tender):
         return sum([len(i.complaints) for i in tender.awards], sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)))
 
     @json_view(content_type="application/json", permission='create_qualification_complaint', validators=(validate_complaint_data,))

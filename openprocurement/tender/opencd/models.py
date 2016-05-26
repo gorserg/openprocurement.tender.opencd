@@ -130,7 +130,8 @@ class ConfidentialDocument(Document):
     confidentiality = StringType(choices=['public', 'buyerOnly'], default='public')
     confidentialityRationale = StringType()
 
-    def validate_confidentialityRationale(self, data, val):
+    @staticmethod
+    def validate_confidentialityRationale(data, val):
         if data['confidentiality'] != 'public':
             if not val:
                 raise ValidationError(u"confidentialityRationale is required")
@@ -349,10 +350,10 @@ class Award(BaseAward):
     qualified = BooleanType()
     eligible = BooleanType()
 
-    def validate_qualified(self, data, qualified):
+    def validate_qualified(self, *args):
         pass
 
-    def validate_eligible(self, data, eligible):
+    def validate_eligible(self, *args):
         pass
 
 

@@ -10,5 +10,6 @@ from openprocurement.tender.openua.views.award_complaint import TenderUaAwardCom
             description="Tender CD award complaints")
 class TenderCDAwardComplaintResource(TenderUaAwardComplaintResource):
 
-    def complaints_len(self, tender):
+    @staticmethod
+    def complaints_len(tender):
         return sum([len(i.complaints) for i in tender.awards], sum([len(i.complaints) for i in tender.qualifications], len(tender.complaints)))
