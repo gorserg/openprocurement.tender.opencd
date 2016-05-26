@@ -168,7 +168,7 @@ class TenderResourceTest(BaseTenderWebTest):
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(len(response.json['data']), 3)
         self.assertEqual(set(response.json['data'][0]), set([u'id', u'dateModified']))
-        self.assertEqual(set([i['id'] for i in response.json['data']]), set([i['id'] for i in tenders]))
+        self.assertEqual(set(i['id'] for i in response.json['data']), set(i['id'] for i in tenders))
         self.assertEqual([i['dateModified'] for i in response.json['data']], sorted([i['dateModified'] for i in tenders], reverse=True))
 
         response = self.app.get('/tenders?descending=1&limit=2')

@@ -2236,7 +2236,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.json['data']['status'], 'active.qualification')
 
         self.app.authorization = ('Basic', ('broker', ''))
-        def test_bids_documents_after_auction_resource(self, doc_id_by_type, private_doc_id_by_type, status):
+        def test_bids_documents_after_auction_resource(self, doc_id_by_type, private_doc_id_by_type, *args):
             for doc_resource in ['documents', 'financial_documents', 'eligibility_documents', 'qualification_documents']:
                 for container in private_doc_id_by_type, doc_id_by_type:
                     response = self.app.get('/tenders/{}/bids/{}/{}/{}?acc_token={}&{}'.format(
